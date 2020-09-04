@@ -26,12 +26,12 @@ function Login() {
                                 </form>
                             </article>
                         </div>
-                    <h2 className="text-center">See what's happening in the world right now</h2>
-                                <p className="text-center"> Join Twitter Today</p>
-                                <div className="col-md-13 text-center">
-                                    <button type="button" class="btn btn-primary" onClick={() => setModalShow(true)}>Sign Up</button>
-                                </div>
-                                <RegisterUserModal show={modalShow} onHide={() => setModalShow(false)}></RegisterUserModal>
+                        <h2 className="text-center">See what's happening in the world right now</h2>
+                        <p className="text-center"> Join Twitter Today</p>
+                        <div className="col-md-13 text-center">
+                            <button type="button" class="btn btn-primary" onClick={() => setModalShow(true)}>Sign Up</button>
+                        </div>
+                        <RegisterUserModal show={modalShow} onHide={() => setModalShow(false)}></RegisterUserModal>
                     </aside>
                 </div>
 
