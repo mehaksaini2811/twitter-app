@@ -3,6 +3,10 @@ import RegisterUserModal from './RegisterUserModal';
 
 function Login() {
     const [modalShow, setModalShow] = useState(false)
+
+    const handleChange=e=>{
+        
+    }
     return (
         <>
             <div className="container">
@@ -16,11 +20,11 @@ function Login() {
                                 <form>
                                     <div class='form-group'>
                                         <label for='email'>Email</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Enter your email address"></input>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter your email address" onChange={handleChange}></input>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" placeholder="Enter your password"></input>
+                                        <input type="password" class="form-control" id="password" placeholder="Enter your password" onChange={handleChange}></input>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Login</button>
                                 </form>

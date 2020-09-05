@@ -5,11 +5,16 @@ import { Modal } from 'react-bootstrap';
 
 function RegisterUserModal(props) {
 
-    const [currentStep, setCurrentStep] = useState(1);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [check, setCheck] = useState(false)
+     const [currentStep, setCurrentStep] = useState(1);
+     const [check, setCheck] = useState(false)
+
+    const [registerationDetails, setRegistrationDetails]=useState(
+        {
+            name:"",
+            email:"",
+            dateOfBirth:"",
+        }
+    )
 
     const nextButton = () => {
         if (currentStep === 3) {
@@ -31,20 +36,14 @@ function RegisterUserModal(props) {
     }
     const handleChange = event => {
 
-        if (event.target.name === 'name') {
-            setName(event.target.value)
-        }
-        else if (event.target.name === 'email') {
-            setEmail(event.target.value)
-        }
-        else if (event.target.name === 'dob') {
-            setDateOfBirth(event.target.value)
-        }
-        else if (event.target.name === 'check') {
-            setCheck(event.target.value)
-        }
+        setRegistrationDetails({
+            ...registerationDetails,
+            [event.target.name]:event.target.value
+        })
     }
-
+    const toggleCheckbox=()=>{
+        setCheck(!check)
+    }
     return (
         <div>
             <Modal
@@ -52,13 +51,13 @@ function RegisterUserModal(props) {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centred>
-                <Modal.Header>
+                <Modal.Header className="justify-content-end">
                     {nextButton()}
                     {previousButton()}
                 </Modal.Header>
-                <Step1 stepNumber={currentStep} name={name} email={email} dateOfBirth={dateOfBirth} change={handleChange}></Step1>
-                <Step2 stepNumber={currentStep} check={check} change={handleChange}></Step2>
-                <Step3 stepNumber={currentStep} name={name} email={email} dateOfBirth={dateOfBirth}></Step3>
+                <Step1 stepNumber={currentStep} name={registerationDetails.name} email={registerationDetails.email} dateOfBirth={registerationDetails.dateOfBirth} change={handleChange} ></Step1>
+                <Step2 stepNumber={currentStep} check={check} checkbox={toggleCheckbox}></Step2>
+                <Step3 stepNumber={currentStep} name={registerationDetails.name} email={registerationDetails.email} dateOfBirth={registerationDetails.dateOfBirth}></Step3>
             </Modal>
         </div>
     )
@@ -76,16 +75,16 @@ function Step1(props) {
             <div className="col-md-4 col-md-offset-4">
                 <div className="form-group">
                     <label for="name">Name</label>
-                    <input type="name" class="form=control" name="name" id="name" value={props.name} placeholder="Enter your Name" onChange={props.change} />
+                    <input type="name" class="form-control" name="name" id="name" value={props.name} placeholder="Enter your Name" onChange={props.change} />
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form=control" name="email" value={props.email} id="registerEmail" placeholder="Enter your Email address" onChange={props.change} />
+                    <input type="email" class="form-control" name="email" value={props.email} id="registerEmail" placeholder="Enter your Email address" onChange={props.change} />
                 </div>
                 <div class="form-group">
                     <label for="dateOfBirth">Date of birth</label>
-                    <input type="date" class="form-control" id="dob" name="dob" value={props.dateOfBirth} onChange={props.change} />
+                    <input type="date" class="form-control" id="dob" name="dateOfBirth" value={props.dateOfBirth} onChange={props.change} />
                 </div>
             </div>
         </>
@@ -102,7 +101,7 @@ function Step2(props) {
                 <label htmlFor="info" className="col-sm-10">
                     Twitter uses this data to personalize your experience. This web browsing history will never be stored with you name, email or phone number
                 </label>
-                <input type="checkbox" name="check" className="form-check-input" id="signup-check" checked={props.check} onChange={props.change}></input>
+                <input type="checkbox" name="check" className="form-check-input" id="signup-check" checked={props.check} onChange={props.checkbox}></input>
             </div>
         </div>
     )
