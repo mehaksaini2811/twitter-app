@@ -1,14 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-
+import { Form, FormGroup, ControlLabel, FormControl, Button } from "rsuite";
 function LoginForm() {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = data => console.log(data);
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="email">Email</label>
+      <Form fluid onSubmit={handleSubmit(onSubmit)}>
+        <FormGroup>
+          <ControlLabel htmlFor="email">Email</ControlLabel>
           <input
             name="email"
             type="email"
@@ -18,18 +18,18 @@ function LoginForm() {
             })}
           />
           {errors.email && <span>Email is required</span>}
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel htmlFor="password">Password</ControlLabel>
           <input
             type="password"
             name="password"
             ref={register({ required: true })}
           />
           {errors.password && <span>Password is required</span>}
-        </div>
-        <input type="Submit" />
-      </form>
+        </FormGroup>
+        <Button type="submit">Login</Button>
+      </Form>
     </>
   );
 }

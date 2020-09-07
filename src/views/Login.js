@@ -2,27 +2,44 @@ import React, { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import RegisterUserModal from "../components/RegisterUserModal";
 import Test from "../components/Test";
-import { Button, ButtonToolbar, Modal } from "rsuite";
+import {
+  Button,
+  ButtonToolbar,
+  Modal,
+  Container,
+  Content,
+  FlexboxGrid,
+  Panel
+} from "rsuite";
 
 function Login() {
   const [register, setRegister] = useState(false);
 
   return (
     <>
-      <h1 className="text-center">Welcome to Twitter</h1>
-      <LoginForm />
-      <h2>See what's happening in the world right now</h2>
-      <p> Join Twitter Today</p>
-
-      <div className="modal-container">
-        <ButtonToolbar>
-          <Button onClick={() => setRegister(true)}>Sign Up</Button>
-        </ButtonToolbar>
-
-        <RegisterUserModal
-          show={register}
-          onHide={() => setRegister(false)}
-        ></RegisterUserModal>
+      <div className="show-container">
+        <Container>
+          <Content>
+            <FlexboxGrid justify="center">
+              <FlexboxGrid.Item colspan={12}>
+                <Panel header={<h3>Log in to Twitter</h3>} bordered>
+                  <LoginForm />
+                  <div className="modal-container">
+                    <ButtonToolbar>
+                      <Button onClick={() => setRegister(true)}>
+                        Sign Up
+                      </Button>
+                    </ButtonToolbar>
+                    <RegisterUserModal
+                      show={register}
+                      onHide={() => setRegister(false)}
+                    ></RegisterUserModal>
+                  </div>
+                </Panel>
+              </FlexboxGrid.Item>
+            </FlexboxGrid>
+          </Content>
+        </Container>
       </div>
     </>
   );
