@@ -22,7 +22,14 @@ function Login() {
           <Content>
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={12}>
-                <Panel header={<h3>Log in to Twitter</h3>} bordered>
+                <Panel
+                  header={
+                    <h3 style={{ textAlign: "center", color: "DeepSkyBlue" }}>
+                      Log in to Twitter
+                    </h3>
+                  }
+                  bordered
+                >
                   <LoginForm />
                   <div className="modal-container">
                     <ButtonToolbar>
