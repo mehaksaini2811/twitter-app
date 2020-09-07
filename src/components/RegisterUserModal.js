@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 
-import { Modal } from "rsuite";
+import {
+  Modal,
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Container,
+  Content,
+  FlexboxGrid,
+  Button
+} from "rsuite";
 
 function RegisterUserModal(props) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,26 +27,24 @@ function RegisterUserModal(props) {
       return null;
     }
     return (
-      <div className="justify-content-right">
-        <button
-          className="btn btn-primary float-right"
-          onClick={() => setCurrentStep(currentStep + 1)}
-        >
-          Next
-        </button>
-      </div>
+      <Button
+        style={{ marginInlineStart: "auto" }}
+        onClick={() => setCurrentStep(currentStep + 1)}
+      >
+        Next
+      </Button>
     );
   };
 
   const previousButton = () => {
     if (currentStep === 1) return null;
     return (
-      <button
-        className="btn btn-secondary "
+      <Button
+        style={{ marginInlineEnd: "auto" }}
         onClick={() => setCurrentStep(currentStep - 1)}
       >
         Previous
-      </button>
+      </Button>
     );
   };
   const handleChange = event => {
@@ -51,13 +59,13 @@ function RegisterUserModal(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centred
     >
-      <Modal.Header className="justify-content-end">
-        {nextButton()}
+      <Modal.Header style={{ display: "flex", justifyContent: "flex-end" }}>
         {previousButton()}
+        {nextButton()}
       </Modal.Header>
       <Step1
         stepNumber={currentStep}
@@ -88,44 +96,57 @@ function Step1(props) {
 
   return (
     <>
-      <h3>Create your Account</h3>
-      <div className="col-md-4 col-md-offset-4">
-        <div className="form-group">
-          <label for="name">Name</label>
-          <input
-            type="name"
-            class="form-control"
-            name="name"
-            id="name"
-            value={props.name}
-            placeholder="Enter your Name"
-            onChange={props.change}
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            name="email"
-            value={props.email}
-            id="registerEmail"
-            placeholder="Enter your Email address"
-            onChange={props.change}
-          />
-        </div>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <input
-            type="date"
-            class="form-control"
-            id="dob"
-            name="dateOfBirth"
-            value={props.dateOfBirth}
-            onChange={props.change}
-          />
-        </div>
+      <div className="show-container">
+        <Container>
+          <Content>
+            <FlexboxGrid justify="center">
+              <FlexboxGrid.Item colspan={12}>
+                <h3 style={{ textAlign: "center", color: "DeepSkyBlue" }}>
+                  Create your Account
+                </h3>
+                <Form>
+                  <FormGroup>
+                    <ControlLabel for="name">Name</ControlLabel>
+                    <FormControl
+                      type="name"
+                      class="form-control"
+                      name="name"
+                      id="name"
+                      value={props.name}
+                      placeholder="Enter your Name"
+                      onChange={props.change}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <ControlLabel for="email">Email</ControlLabel>
+                    <FormControl
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      value={props.email}
+                      id="registerEmail"
+                      placeholder="Enter your Email address"
+                      onChange={props.change}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <ControlLabel htmlFor="dateOfBirth">
+                      Date of birth
+                    </ControlLabel>
+                    <FormControl
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      name="dateOfBirth"
+                      value={props.dateOfBirth}
+                      onChange={props.change}
+                    />
+                  </FormGroup>
+                </Form>
+              </FlexboxGrid.Item>
+            </FlexboxGrid>
+          </Content>
+        </Container>
       </div>
     </>
   );

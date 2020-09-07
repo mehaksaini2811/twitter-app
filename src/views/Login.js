@@ -21,7 +21,7 @@ function Login() {
         <Container>
           <Content>
             <FlexboxGrid justify="center">
-              <FlexboxGrid.Item colspan={12}>
+              <FlexboxGrid.Item colspan={8}>
                 <Panel
                   header={
                     <h3 style={{ textAlign: "center", color: "DeepSkyBlue" }}>
