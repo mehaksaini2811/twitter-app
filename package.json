@@ -12,6 +12,7 @@
     "react-hook-form": "^6.7.2",
     "react-scripts": "3.4.3",
     "rsuite": "^4.8.1",
+    "styled-components": "^5.2.0",
     "yup": "^0.29.3"
   },
   "scripts": {

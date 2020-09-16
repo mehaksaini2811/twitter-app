@@ -1,55 +1,52 @@
-import React, { useState } from "react";
-import LoginForm from "../components/LoginForm";
-import RegisterUserModal from "../components/RegisterUserModal";
-import Test from "../components/Test";
-import {
-  Button,
-  ButtonToolbar,
-  Modal,
-  Container,
-  Content,
-  FlexboxGrid,
-  Panel
-} from "rsuite";
+import React, { useState } from 'react'
+import { Button, Modal, Container, Content, FlexboxGrid, Panel } from 'rsuite'
+import styled from 'styled-components'
 
-function Login() {
-  const [register, setRegister] = useState(false);
+import LoginForm from '../components/LoginForm'
+import RegisterUserModal from '../components/RegisterUserModal'
+import Test from '../components/Test'
 
+const Title = styled.h3`
+  text-align: center;
+  color: DeepSkyBlue;
+`
+
+const LoginImg = styled.img`
+  height: 120px;
+  margin: 32px auto;
+`
+
+function RegisterModal(props) {
+  const { onHide, visible } = props
   return (
-    <>
-      <div className="show-container">
-        <Container>
-          <Content>
-            <FlexboxGrid justify="center">
-              <FlexboxGrid.Item colspan={8}>
-                <Panel
-                  header={
-                    <h3 style={{ textAlign: "center", color: "DeepSkyBlue" }}>
-                      Log in to Twitter
-                    </h3>
-                  }
-                  bordered
-                >
-                  <LoginForm />
-                  <div className="modal-container">
-                    <ButtonToolbar>
-                      <Button onClick={() => setRegister(true)}>
-                        Sign Up
-                      </Button>
-                    </ButtonToolbar>
-                    <RegisterUserModal
-                      show={register}
-                      onHide={() => setRegister(false)}
-                    ></RegisterUserModal>
-                  </div>
-                </Panel>
-              </FlexboxGrid.Item>
-            </FlexboxGrid>
-          </Content>
-        </Container>
-      </div>
-    </>
-  );
+    <RegisterUserModal
+      show={visible}
+      onHide={() => onHide()}
+    ></RegisterUserModal>
+  )
 }
 
-export default Login;
+function Login() {
+  const [visible, setVisibility] = useState(false)
+
+  return (
+    <Container>
+      <Content>
+        <Panel
+          style={{ maxWidth: 480, margin: '0 auto' }}
+          header={<Title>Log in to Twitter</Title>}
+          bordered
+        >
+          <LoginImg src="/img/login.svg" alt="login" />
+          <LoginForm onSignUp={() => setVisibility(true)} />
+          <RegisterModal
+            visible={visible}
+            onHide={() => setVisibility(false)}
+          />
+        </Panel>
+      </Content>
+    </Container>
+  )
+}
+
+export default Login
