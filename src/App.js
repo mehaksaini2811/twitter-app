@@ -1,9 +1,19 @@
 import React from 'react'
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  gql,
+} from '@apollo/client'
 import styled from 'styled-components'
 import Login from './views/Login'
 import LoginForm from './components/LoginForm'
-
 import 'rsuite/dist/styles/rsuite-default.css'
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache(),
+})
 
 const MainContainer = styled.div`
   padding: 64px;
@@ -14,9 +24,11 @@ const MainContainer = styled.div`
 //TODO: Improve code!
 function App() {
   return (
-    <MainContainer>
-      <Login />
-    </MainContainer>
+    <ApolloProvider client={client}>
+      <MainContainer>
+        <Login />
+      </MainContainer>
+    </ApolloProvider>
   )
 }
 
