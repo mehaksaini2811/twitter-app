@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
 import * as yup from 'yup'
@@ -10,7 +10,7 @@ import {
   Button,
   Message,
 } from 'rsuite'
-
+import Authentication from './Authentication.js'
 const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -20,13 +20,21 @@ const loginSchema = yup.object().shape({
 })
 
 function LoginForm(props) {
+  console.log('Login form called')
   const { onSignUp } = props
 
+  const [authnFlag, setAuthnFlag] = useState(false)
+  const [formData, setFormData] = useState()
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit = data => console.log(data)
+  const onSubmit = data => {
+    console.log('submit called')
+    setAuthnFlag(true)
+    console.log('authnFlag set as ', authnFlag)
+    setFormData(data)
+  }
 
   return (
     <Form fluid onSubmit={handleSubmit(onSubmit)}>
@@ -50,6 +58,8 @@ function LoginForm(props) {
       <Button type="submit" appearance="primary" style={{ marginRight: 8 }}>
         Login
       </Button>
+      {console.log('here ', authnFlag)}
+      {authnFlag && <Authentication />}
       <Button appearance="ghost" onClick={() => onSignUp()}>
         Sign Up
       </Button>

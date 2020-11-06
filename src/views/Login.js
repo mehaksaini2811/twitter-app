@@ -28,6 +28,7 @@ function RegisterModal(props) {
 }
 
 function Login() {
+  console.log('login called')
   const [visible, setVisibility] = useState(false)
 
   return (
@@ -40,7 +41,6 @@ function Login() {
         >
           <LoginImg src="/img/login.svg" alt="login" />
           <LoginForm onSignUp={() => setVisibility(true)} />
-          <Authentication />
           <RegisterModal
             visible={visible}
             onHide={() => setVisibility(false)}
