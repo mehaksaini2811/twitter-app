@@ -20,7 +20,6 @@ const loginSchema = yup.object().shape({
 })
 
 function LoginForm(props) {
-  console.log('Login form called')
   const { onSignUp } = props
 
   const [authnFlag, setAuthnFlag] = useState(false)
@@ -30,9 +29,7 @@ function LoginForm(props) {
   })
 
   const onSubmit = data => {
-    console.log('submit called')
     setAuthnFlag(true)
-    console.log('authnFlag set as ', authnFlag)
     setFormData(data)
   }
 
@@ -58,8 +55,7 @@ function LoginForm(props) {
       <Button type="submit" appearance="primary" style={{ marginRight: 8 }}>
         Login
       </Button>
-      {console.log('here ', authnFlag)}
-      {authnFlag && <Authentication />}
+      {authnFlag && formData && <Authentication userCredentials={formData} />}
       <Button appearance="ghost" onClick={() => onSignUp()}>
         Sign Up
       </Button>
