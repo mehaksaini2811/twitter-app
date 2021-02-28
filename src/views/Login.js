@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Modal, Container, Content, FlexboxGrid, Panel } from 'rsuite'
+import {  Container, Content, Panel } from 'rsuite'
 import styled from 'styled-components'
 
 import LoginForm from '../components/LoginForm'
 import RegisterUserModal from '../components/RegisterUserModal'
-import Test from '../components/Test'
-import Authentication from '../components/Authentication.js'
 
 const Title = styled.h3`
   text-align: center;

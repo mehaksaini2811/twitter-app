@@ -2,12 +2,10 @@ import React from 'react'
 import {
   ApolloProvider,
   ApolloClient,
-  InMemoryCache,
-  gql,
+  InMemoryCache
 } from '@apollo/client'
 import styled from 'styled-components'
 import Login from './views/Login'
-import LoginForm from './components/LoginForm'
 import 'rsuite/dist/styles/rsuite-default.css'
 
 const client = new ApolloClient({
