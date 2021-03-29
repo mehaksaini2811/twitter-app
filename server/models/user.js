@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bcrypt=require('bcrypt')
+const SALT_I=10
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -20,5 +22,25 @@ const UserSchema = new mongoose.Schema({
   },
 })
 
+UserSchema.pre("save",function(next){
+    var user=this
+    if(user.isModified("password")){
+      bcrypt.genSalt(SALT_I, function(err, hash){
+        if(err){
+          return next(err)
+        }
+        bcrypt.hash(user.password, SALT_I, function(err, hash){
+          if(err){
+            return next()
+          }
+          user.password=hash;
+          next();
+        })
+      })
+    }
+    else{
+        next()
+    }
+})
 const User=mongoose.model('user',UserSchema)
 module.exports=User
