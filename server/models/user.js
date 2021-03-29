@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const bcrypt=require('bcrypt')
+const jwt=require('jsonwebtoken')
 const SALT_I=10
+require('dotenv').config()
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -42,5 +44,14 @@ UserSchema.pre("save",function(next){
         next()
     }
 })
+
+UserSchema.methods.generateToken=async function(){
+  var user=this
+  var token=jwt.sign({email:user.email}, process.env.SECRET, {
+    expiresIn:'7d'
+  })
+  user.token=token
+  return user.save()
+}
 const User=mongoose.model('user',UserSchema)
-module.exports=User
+module.exports={User}

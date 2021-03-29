@@ -7,6 +7,7 @@
 
 # keys and password
 config
+.env
 # testing
 /coverage
 
