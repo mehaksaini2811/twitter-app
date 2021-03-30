@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
+import {gql, useMutation} from '@apollo/client'
 
 import {
   Modal,
@@ -9,53 +10,66 @@ import {
   Container,
   Content,
   FlexboxGrid,
-  Button
-} from "rsuite";
+  Button,
+} from 'rsuite'
 
 function RegisterUserModal(props) {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [check, setCheck] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1)
+  const [check, setCheck] = useState(false)
 
-  const [registerationDetails, setRegistrationDetails] = useState({
-    name: "",
-    email: "",
-    dateOfBirth: ""
-  });
+  const [registrationDetails, setRegistrationDetails] = useState({
+    name: '',
+    email: '',
+    dateOfBirth: '',
+  })
 
   const nextButton = () => {
     if (currentStep === 3) {
-      return null;
+      return null
     }
     return (
       <Button
-        style={{ marginInlineStart: "auto" }}
+        style={{ marginInlineStart: 'auto' }}
         onClick={() => setCurrentStep(currentStep + 1)}
       >
         Next
       </Button>
-    );
-  };
+    )
+  }
 
   const previousButton = () => {
-    if (currentStep === 1) return null;
+    if (currentStep === 1) return null
     return (
       <Button
-        style={{ marginInlineEnd: "auto" }}
+        style={{ marginInlineEnd: 'auto' }}
         onClick={() => setCurrentStep(currentStep - 1)}
       >
         Previous
       </Button>
-    );
-  };
-  const handleChange = event => {
+    )
+  }
+
+  const handleChange = (value, event) => {
     setRegistrationDetails({
-      ...registerationDetails,
-      [event.target.name]: event.target.value
-    });
-  };
+      ...registrationDetails,
+      [event.target.name]: event.target.value,
+    })
+  }
+
+  const ADD_USER=gql`
+    mutation signUpUser($userDetails:input!){
+      signUp(authData:$userDetails)
+    }
+  `
+  const SignUpUser = () => {
+  console.log('inside signUpUser'+registrationDetails.name)
+  const [signUp, {data}]=useMutation(ADD_USER)
+  console.log('data:'+data)
+}
+
   const toggleCheckbox = () => {
-    setCheck(!check);
-  };
+    setCheck(!check)
+  }
   return (
     <Modal
       {...props}
@@ -63,15 +77,15 @@ function RegisterUserModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centred
     >
-      <Modal.Header style={{ display: "flex", justifyContent: "flex-end" }}>
+      <Modal.Header style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {previousButton()}
         {nextButton()}
       </Modal.Header>
       <Step1
         stepNumber={currentStep}
-        name={registerationDetails.name}
-        email={registerationDetails.email}
-        dateOfBirth={registerationDetails.dateOfBirth}
+        name={registrationDetails.name}
+        email={registrationDetails.email}
+        dateOfBirth={registrationDetails.dateOfBirth}
         change={handleChange}
       ></Step1>
       <Step2
@@ -81,19 +95,16 @@ function RegisterUserModal(props) {
       ></Step2>
       <Step3
         stepNumber={currentStep}
-        name={registerationDetails.name}
-        email={registerationDetails.email}
-        dateOfBirth={registerationDetails.dateOfBirth}
+        name={registrationDetails.name}
+        email={registrationDetails.email}
+        dateOfBirth={registrationDetails.dateOfBirth}
+        onSignup={SignUpUser}
       ></Step3>
     </Modal>
-  );
+  )
 }
 
-function Step1(props) {
-  if (props.stepNumber !== 1) {
-    return null;
-  }
-
+function Step(props) {
   return (
     <>
       <div className="show-container">
@@ -101,15 +112,12 @@ function Step1(props) {
           <Content>
             <FlexboxGrid justify="center">
               <FlexboxGrid.Item colspan={12}>
-                <h3 style={{ textAlign: "center", color: "DeepSkyBlue" }}>
-                  Create your Account
-                </h3>
                 <Form>
                   <FormGroup>
-                    <ControlLabel for="name">Name</ControlLabel>
+                    <ControlLabel htmlFor="name">Name</ControlLabel>
                     <FormControl
                       type="name"
-                      class="form-control"
+                      className="form-control"
                       name="name"
                       id="name"
                       value={props.name}
@@ -118,10 +126,10 @@ function Step1(props) {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <ControlLabel for="email">Email</ControlLabel>
+                    <ControlLabel htmlFor="email">Email</ControlLabel>
                     <FormControl
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       name="email"
                       value={props.email}
                       id="registerEmail"
@@ -135,7 +143,7 @@ function Step1(props) {
                     </ControlLabel>
                     <FormControl
                       type="date"
-                      class="form-control"
+                      className="form-control"
                       id="dob"
                       name="dateOfBirth"
                       value={props.dateOfBirth}
@@ -149,10 +157,28 @@ function Step1(props) {
         </Container>
       </div>
     </>
-  );
+  )
+}
+function Step1(props) {
+  if (props.stepNumber !== 1) {
+    return null
+  }
+  return (
+    <>
+      <h3 style={{ textAlign: 'center', color: 'DeepSkyBlue' }}>
+        Create your Account
+      </h3>
+      <Step
+        name={props.name}
+        email={props.email}
+        dateOfBirth={props.dateOfBirth}
+        change={props.change}
+      ></Step>
+    </>
+  )
 }
 function Step2(props) {
-  if (props.stepNumber !== 2) return null;
+  if (props.stepNumber !== 2) return null
   return (
     <div>
       <h2>
@@ -178,51 +204,21 @@ function Step2(props) {
         ></input>
       </div>
     </div>
-  );
+  )
 }
 
 function Step3(props) {
-  if (props.stepNumber !== 3) return null;
+  if (props.stepNumber !== 3) return null
   return (
-    <UserForm
+    <>
+    <Step
       name={props.name}
       email={props.email}
       dateOfBirth={props.dateOfBirth}
     />
-  );
+    <Button type="submit" appearance="primary" onClick={props.onSignup}>Sign Up</Button>
+    </>
+  )
 }
 
-const UserForm = props => {
-  return (
-    <div>
-      <div className="form-group">
-        <label for="name">Name</label>
-        <input type="name" class="form=control" value={props.name} readOnly />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          class="form=control"
-          value={props.email}
-          readOnly
-        />
-      </div>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <input
-          type="date"
-          class="form-control"
-          value={props.dateOfBirth}
-          readOnly
-        />
-      </div>
-      <div class="col-md-12 text-center">
-        <button className="btn btn-primary float-center">Sign Up</button>
-      </div>
-    </div>
-  );
-};
-
-export default RegisterUserModal;
+export default RegisterUserModal

@@ -29,6 +29,8 @@ function LoginForm(props) {
   })
 
   const onSubmit = data => {
+    console.log("onsubmit")
+
     setAuthnFlag(true)
     setFormData(data)
   }
@@ -58,7 +60,7 @@ function LoginForm(props) {
       {authnFlag && formData && <Authentication userCredentials={formData} />}
       <Button appearance="ghost" onClick={() => onSignUp()}>
         Sign Up
-      </Button>
+      </Button> 
     </Form>
   )
 }
