@@ -18,7 +18,6 @@ const MainContainer = styled.div`
   height: 100%;
   widht: 100%;
 `
-
 //TODO: Improve code!
 function App() {
   return (

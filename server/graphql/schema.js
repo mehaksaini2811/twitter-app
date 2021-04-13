@@ -10,11 +10,19 @@ const typeDefs=gql`
     }
     type Mutation{
         auth(input:authData):User!
-        signUp(input:authData):User!
+        #signUp(input:authData):User!
+        signUp(input:signUpData):User!
     }
     input authData{
         email:String!
         password:String!
+    }
+    input signUpData{
+        name:String!
+        email: String!
+        password:String!
+        dateOfBirth:String!
+
     }
 `
 module.exports=typeDefs

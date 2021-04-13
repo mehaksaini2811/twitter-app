@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {gql, useMutation} from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 
 import {
   Modal,
@@ -16,12 +16,21 @@ import {
 function RegisterUserModal(props) {
   const [currentStep, setCurrentStep] = useState(1)
   const [check, setCheck] = useState(false)
-
   const [registrationDetails, setRegistrationDetails] = useState({
     name: '',
     email: '',
     dateOfBirth: '',
+    password:''
   })
+  const ADD_USER = gql`
+    mutation SignUpUser($input: signUpData!) {
+      signUp(input: $input) {
+        email
+        password
+      }
+    }
+  `
+  const [signUp, { data }] = useMutation(ADD_USER)
 
   const nextButton = () => {
     if (currentStep === 3) {
@@ -56,16 +65,25 @@ function RegisterUserModal(props) {
     })
   }
 
-  const ADD_USER=gql`
-    mutation signUpUser($userDetails:input!){
-      signUp(authData:$userDetails)
-    }
-  `
   const SignUpUser = () => {
-  console.log('inside signUpUser'+registrationDetails.name)
-  const [signUp, {data}]=useMutation(ADD_USER)
-  console.log('data:'+data)
-}
+    signUp({
+      variables: {
+        input: {
+          name: registrationDetails.name,
+          email: registrationDetails.email,
+          password:registrationDetails.password,
+          dateOfBirth:registrationDetails.dateOfBirth
+        },
+      },
+    })
+      .then(() => {
+        console.log('signup successful')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    //console.log("exit"+data)
+  }
 
   const toggleCheckbox = () => {
     setCheck(!check)
@@ -86,6 +104,7 @@ function RegisterUserModal(props) {
         name={registrationDetails.name}
         email={registrationDetails.email}
         dateOfBirth={registrationDetails.dateOfBirth}
+        password={registrationDetails.password}
         change={handleChange}
       ></Step1>
       <Step2
@@ -98,6 +117,7 @@ function RegisterUserModal(props) {
         name={registrationDetails.name}
         email={registrationDetails.email}
         dateOfBirth={registrationDetails.dateOfBirth}
+        password={registrationDetails.password}
         onSignup={SignUpUser}
       ></Step3>
     </Modal>
@@ -150,6 +170,19 @@ function Step(props) {
                       onChange={props.change}
                     />
                   </FormGroup>
+                  <FormGroup>
+                    <ControlLabel htmlFor="password">
+                      Password
+                    </ControlLabel>
+                    <FormControl
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      name="password"
+                      value={props.password}
+                      onChange={props.change}
+                    />
+                  </FormGroup>
                 </Form>
               </FlexboxGrid.Item>
             </FlexboxGrid>
@@ -172,6 +205,7 @@ function Step1(props) {
         name={props.name}
         email={props.email}
         dateOfBirth={props.dateOfBirth}
+        password={props.password}
         change={props.change}
       ></Step>
     </>
@@ -206,17 +240,19 @@ function Step2(props) {
     </div>
   )
 }
-
 function Step3(props) {
   if (props.stepNumber !== 3) return null
   return (
     <>
-    <Step
-      name={props.name}
-      email={props.email}
-      dateOfBirth={props.dateOfBirth}
-    />
-    <Button type="submit" appearance="primary" onClick={props.onSignup}>Sign Up</Button>
+      <Step
+        name={props.name}
+        email={props.email}
+        dateOfBirth={props.dateOfBirth}
+        password={props.password}
+      />
+      <Button type="submit" appearance="primary" onClick={props.onSignup}>
+        Sign Up
+      </Button>
     </>
   )
 }

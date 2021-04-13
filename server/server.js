@@ -7,6 +7,7 @@ const config=require('./config/config')
 const typeDefs=require('./graphql/schema')
 const {Query}=require('./graphql/resolvers/Query')
 const {Mutation}=require('./graphql/resolvers/mutations')
+const cors=require('cors')
 
 /*const users = [
   {
@@ -48,6 +49,7 @@ const server = new ApolloServer({
   }
 });
 const app = express()
+//app.use(cors)
 server.applyMiddleware({ app })
 
 mongoose.connect(`mongodb+srv://${config.mongoDBUser}:${config.mongoDBPassword}@cluster0.cd5fp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,{
