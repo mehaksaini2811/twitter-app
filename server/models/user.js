@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
-const SALT_I=10
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const SALT_I = 10
 require('dotenv').config()
 
 const UserSchema = new mongoose.Schema({
@@ -14,47 +14,54 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   firstName: {
-    type: String
+    type: String,
   },
   lastName: {
-    type: String
+    type: String,
   },
   dateOfBirth: {
-    type: String
+    type: String,
   },
   token: {
     type: String,
   },
 })
 
-UserSchema.pre("save",function(next){
-    var user=this
-    if(user.isModified("password")){
-      bcrypt.genSalt(SALT_I, function(err, hash){
-        if(err){
-          return next(err)
+UserSchema.pre('save', function (next) {
+  var user = this
+  if (user.isModified('password')) {
+    bcrypt.genSalt(SALT_I, function (err, hash) {
+      if (err) {
+        return next(err)
+      }
+      bcrypt.hash(user.password, SALT_I, function (err, hash) {
+        if (err) {
+          return next()
         }
-        bcrypt.hash(user.password, SALT_I, function(err, hash){
-          if(err){
-            return next()
-          }
-          user.password=hash;
-          next();
-        })
-      })
-    }
-    else{
+        user.password = hash
         next()
-    }
+      })
+    })
+  } else {
+    next()
+  }
 })
 
-UserSchema.methods.generateToken=async function(){
-  var user=this
-  var token=jwt.sign({email:user.email}, process.env.SECRET, {
-    expiresIn:'7d'
+UserSchema.methods.generateToken = async function () {
+  var user = this
+  var token = jwt.sign({ email: user.email }, process.env.SECRET, {
+    expiresIn: '7d',
   })
-  user.token=token
+  user.token = token
   return user.save()
 }
-const User=mongoose.model('user',UserSchema)
-module.exports={User}
+
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+      if (err) return cb(err);
+      cb(null, isMatch);
+  });
+};
+const User = mongoose.model('user', UserSchema)
+
+module.exports = { User }

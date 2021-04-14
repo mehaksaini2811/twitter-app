@@ -7,40 +7,6 @@ const config=require('./config/config')
 const typeDefs=require('./graphql/schema')
 const {Query}=require('./graphql/resolvers/Query')
 const {Mutation}=require('./graphql/resolvers/mutations')
-const cors=require('cors')
-
-/*const users = [
-  {
-    email: 'mehaksaini2811@gmail.com',
-    password: 'abcdef',
-  },
-]*/
-
-/*const typeDefs = gql`
-  type Query
-
-  extend type Query {
-    authenticate(email: String!, password: String!): String
-  }
-`*/
-
-/*const loggingMiddleware = (req, res, next) => {
-  const token = jwt.sign({ username: 'Mehak' }, 'sssssssh')
-}*/
-
-/*const resolvers = {
-  Query: {
-    authenticate: (_, { email, password }) => {
-      console.log(email, password)
-      return jwt.sign({ username: email }, 'sssssh')
-    },
-
-    // authenticate:({email,password}){
-    // return "Hello";
-  },
-}*/
-
-
 const server = new ApolloServer({
   typeDefs,
   resolvers:{
