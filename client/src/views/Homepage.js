@@ -3,7 +3,7 @@ import React from 'react'
 function Homepage() {
   return (
     <>
-      <p>Login Successful here</p>
+      <p>Login is successful. Page under construction</p>
     </>
   )
 }

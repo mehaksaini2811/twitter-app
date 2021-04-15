@@ -11,6 +11,8 @@ import {
   Message,
 } from 'rsuite'
 import { gql, useMutation } from '@apollo/client'
+import Homepage from '../views/Homepage'
+import  '../App.css'
 //import Authentication from './Authentication.js'
 const loginSchema = yup.object().shape({
   email: yup
@@ -39,7 +41,16 @@ function LoginForm(props) {
     }
   }
 `
-const [signIn, { data }] = useMutation(AUTH)
+const [signIn, { loading,error ,data}] = useMutation(AUTH)
+
+if(loading)
+    return <div className="lds-dual-ring"></div>
+if(error)
+  return <p>Error Occured</p>
+  if(data){
+    console.log('email'+data.auth.email)
+    return <Homepage/>
+  }
 
 const handleChange = (value, event) => {
   setLoginDetails({
@@ -51,6 +62,7 @@ const handleChange = (value, event) => {
 
   const onSubmit = () => {
     console.log("onsubmit")
+    console.log('loading'+loading)
     signIn({
       variables: {
         input: {
@@ -59,8 +71,8 @@ const handleChange = (value, event) => {
         },
       },
     })
-      .then(() => {
-        console.log('signin successful')
+      .then((res) => {
+        console.log('signin successful:'+res)
       })
       .catch((err) => {
         console.log(err)
